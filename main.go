@@ -30,24 +30,10 @@ func main() {
 	commands := commands{
 		commandMap: make(map[string]func(*state, command) error),
 	}
-	err = commands.register("login", handlerLogin)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = commands.register("register", handlerRegister)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = commands.register("reset", handlerReset)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = commands.register("users", handlerUsers)
-	if err != nil {
-		log.Fatal(err)
-	}
+	commands.register("login", handlerLogin)
+	commands.register("register", handlerRegister)
+	commands.register("reset", handlerReset)
+	commands.register("users", handlerUsers)
 
 	command := parseCommand(os.Args)
 	err = commands.run(&currentState, command)
