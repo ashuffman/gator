@@ -1,12 +1,12 @@
 package config
 
 import (
-	"os"
 	"encoding/json"
+	"os"
 )
 
 type Config struct {
-	DBurl string `json:"db_url"`
+	DBurl           string `json:"db_url"`
 	CurrentUserName string `json:"current_user_name"`
 }
 
@@ -53,16 +53,16 @@ func (c Config) SetUser(username string) error {
 	return nil
 }
 
-func getConfigFilePath() (string, error){
+func getConfigFilePath() (string, error) {
 	// use os.UserHomedir to get home directory path
 	home, err := os.UserHomeDir()
 	// check for errors, and return gracefully as needed
 	if err != nil {
-		return "" , err
+		return "", err
 	}
 	// create file path from home and file strings
 	filePath := home + "/" + configFileName
-	
+
 	// return the file path and nil error
 	return filePath, nil
 }
@@ -74,7 +74,7 @@ func write(cfg *Config) error {
 	if err != nil {
 		return err
 	}
-	
+
 	// marshal cfg to json
 	cfgBytes, err := json.Marshal(cfg)
 	// check for errors, and handle gracefully as needed

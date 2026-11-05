@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 )
@@ -17,6 +18,11 @@ func handlerLogin(s *state, cmd command) error {
 	// remember to return any errors
 	if err != nil {
 		return err
+	}
+	// reject login for an unknown user
+	_, err = s.db.GetUser(context.Background(), username)
+	if err != nil {
+		return errors.New("This user does not exist")
 	}
 
 	fmt.Printf("Current Username has been set to %v\n", username)

@@ -1,10 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
 	"github.com/ashuffman/gator/internal/config"
+	"github.com/ashuffman/gator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -13,7 +16,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	cfg.DBurl = "postgres://angelahuffman:@localhost:5432/gator?sslmode=disable"
+	db, err := sql.Open("postgres", cfg.DBurl)
+	dbQueries := database.New(db)
+
 	currentState := state{
+		db:        dbQueries,
 		configPtr: &cfg,
 	}
 
@@ -21,6 +29,10 @@ func main() {
 		commandMap: make(map[string]func(*state, command) error),
 	}
 	err = commands.register("login", handlerLogin)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = commands.register("register", handlerRegister)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,5 +45,6 @@ func main() {
 }
 
 type state struct {
+	db        *database.Queries
 	configPtr *config.Config
 }
