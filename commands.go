@@ -26,14 +26,7 @@ func (c *commands) run(s *state, cmd command) error {
 }
 
 func (c *commands) register(name string, f func(*state, command) error) {
-	// register a new handler function for a command name
-	_, exists := c.commandMap[name]
-	if exists {
-		return
-	}
-
 	c.commandMap[name] = f
-	return
 }
 
 func parseCommand(args []string) command {
