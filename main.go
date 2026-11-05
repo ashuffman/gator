@@ -16,8 +16,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	cfg.DBurl = "postgres://angelahuffman:@localhost:5432/gator?sslmode=disable"
 	db, err := sql.Open("postgres", cfg.DBurl)
+	if err != nil {
+		log.Fatal(err)
+	}
 	dbQueries := database.New(db)
 
 	currentState := state{
@@ -33,6 +35,16 @@ func main() {
 		log.Fatal(err)
 	}
 	err = commands.register("register", handlerRegister)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = commands.register("reset", handlerReset)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = commands.register("users", handlerUsers)
 	if err != nil {
 		log.Fatal(err)
 	}
