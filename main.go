@@ -34,6 +34,7 @@ func main() {
 	commands.register("register", handlerRegister)
 	commands.register("reset", handlerReset)
 	commands.register("users", handlerUsers)
+	commands.register("agg", handlerAgg)
 
 	command := parseCommand(os.Args)
 	err = commands.run(&currentState, command)
