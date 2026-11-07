@@ -17,7 +17,7 @@ WHERE
 ;
 
 -- name: Reset :exec
-TRUNCATE TABLE users;
+DELETE FROM users;
 
 -- name: GetUsers :many
 SELECT * FROM users;
