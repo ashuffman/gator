@@ -9,14 +9,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.args) != 2 {
 		return fmt.Errorf("wrong number of arguments provided")
-	}
-
-	user, err := s.db.GetUser(context.Background(), s.configPtr.CurrentUserName)
-	if err != nil {
-		return err
 	}
 
 	feedParams := database.CreateFeedParams{
@@ -29,10 +24,13 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	newFeed, err := s.db.CreateFeed(context.Background(), feedParams)
+	if err != nil {
+		return err
+	}
 	fmt.Printf("%+v", newFeed)
 
 	cmd.args = cmd.args[1:]
-	err = handlerFollow(s, cmd)
+	err = handlerFollow(s, cmd, user)
 
 	return nil
 }

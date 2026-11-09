@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.args) < 1 {
 		return fmt.Errorf("Wrong number of arguments")
 	}
@@ -20,8 +20,6 @@ func handlerFollow(s *state, cmd command) error {
 		return fmt.Errorf("GetFeedByURL error: %w", err)
 	}
 
-	username := s.configPtr.CurrentUserName
-	user, err := s.db.GetUser(context.Background(), username)
 	if err != nil {
 		return fmt.Errorf("GetUser error: %w", err)
 	}
