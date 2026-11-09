@@ -31,5 +31,8 @@ func handlerAddFeed(s *state, cmd command) error {
 	newFeed, err := s.db.CreateFeed(context.Background(), feedParams)
 	fmt.Printf("%+v", newFeed)
 
+	cmd.args = cmd.args[1:]
+	err = handlerFollow(s, cmd)
+
 	return nil
 }
