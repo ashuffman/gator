@@ -20,10 +20,6 @@ func handlerFollow(s *state, cmd command, user database.User) error {
 		return fmt.Errorf("GetFeedByURL error: %w", err)
 	}
 
-	if err != nil {
-		return fmt.Errorf("GetUser error: %w", err)
-	}
-
 	feedFollowParams := database.FeedFollowParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now(),
