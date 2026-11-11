@@ -1,19 +1,23 @@
 package main
 
 import (
-	"context"
 	"fmt"
+	"time"
 )
 
 func handlerAgg(s *state, cmd command) error {
+	if len(cmd.args) < 1 {
+		return fmt.Errorf("Must include time between requests argument")
+	}
 
-	url := "https://www.wagslane.dev/index.xml"
-	feed, err := fetchFeed(context.Background(), url)
+	timeBetweenReqs, err := time.ParseDuration(cmd.args[0])
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("%+v", feed)
+	ticker := time.NewTicker(timeBetweenReqs)
 
-	return nil
+	for ; ; <-ticker.C {
+		scrapeFeeds(s)
+	}
 }
