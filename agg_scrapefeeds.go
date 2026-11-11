@@ -2,7 +2,11 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"database/sql"
+	"time"
+
+	"github.com/ashuffman/gator/internal/database"
+	"github.com/google/uuid"
 )
 
 func scrapeFeeds(s *state) error {
@@ -22,7 +26,20 @@ func scrapeFeeds(s *state) error {
 	}
 
 	for idx := range rssFeed.Channel.Item {
-		fmt.Printf("* %v\n", rssFeed.Channel.Item[idx])
+		item := rssFeed.Channel.Item[idx]
+		err := s.db.CreatePost(context.Background(), database.CreatePostParams{
+			ID:          uuid.New(),
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
+			Title:       item.Title,
+			Url:         item.Link,
+			Description: sql.NullString{String: item.Description, Valid: true},
+			PublishedAt: sql.NullTime{Time: time.Now(), Valid: true},
+			FeedID:      nextFeed.ID,
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
