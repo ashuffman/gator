@@ -6,12 +6,12 @@ All code in this project was written by me, by hand. The idea and project direct
 
 ## Table of Contents
 - Installation
-	- 1. Install Go
-	- 2. Install Postgres
-	- 3. Install Gator
+	- Install Go
+	- Install Postgres
+	- Install Gator
 - Config
-	- 1. Config File
-	- 2. Database Schema
+	- Config File
+	- Database Schema
 - Running the Program
-	- 1. Overview
-	- 2. Commands
+	- Overview
+	- Commands
